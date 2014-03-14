@@ -9,9 +9,11 @@ from datetime import datetime
 import base64
 from . import storage
 from . import downloader
+from . import api_utils
 
 
 @webapp.route('/api/1/upload', methods=['GET', 'PUT', 'POST'])
+@api_utils.crossdomain(origin='*')
 def api_upload():
     url = request.args.get('url')
     if not url:
