@@ -1,19 +1,42 @@
 # coding=utf-8
 
 import json
-from flask import request, jsonify
+import os
+from flask import request, jsonify, make_response
 from application import webapp
 from urlparse import urlparse
 from os.path import splitext, basename
 from datetime import datetime
+from functools import wraps
 import base64
 from . import storage
 from . import downloader
 from . import api_utils
 
+def check_auth(username, password):
+    ENV_PERMUSER = os.environ['PERM_USER']
+    ENV_PERMPASS = os.environ['PERM_PASS']
+
+    """check auth"""
+    return username == ENV_PERMUSER and password == ENV_PERMPASS
+
+def authenticate():
+    return make_response(
+    'You have to login with proper credentials', 401,
+    {'WWW-Authenticate': 'Basic realm="Auth Required"'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
 
 @webapp.route('/api/1/upload', methods=['PUT', 'POST'])
 @api_utils.crossdomain(origin='*')
+@requires_auth
 def api_upload():
     url = request.args.get('url')
     if not url:
