@@ -33,7 +33,8 @@ def api_upload():
             return render_api_error('Cannot fetch file at specified URL.'), 400
 
         # Upload
-        content_type = None if 'Content-Type' not in headers else headers['Content-Type']
+        content_type = None if 'Content-Type' not in headers else headers[
+            'Content-Type']
         permalink = storage.get_storage().upload(filename, body, content_type)
         took = (datetime.now() - start).total_seconds()
         return render_api_result({'permalink': permalink}, {'took': took}), 201
