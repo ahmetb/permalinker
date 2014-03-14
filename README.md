@@ -146,6 +146,6 @@ Navigate to URL shown above.
 
 
 
-[chrome-ext]: https://chrome.google.com/webstore/detail/gbojiplhnhbhfhhkjacacijiglpmcpbh/publish-accepted
+[chrome-ext]: https://chrome.google.com/webstore/detail/gbojiplhnhbhfhhkjacacijiglpmcpbh
 [cfg-azure]: https://github.com/ahmetalpbalkan/permalinker/tree/dev#configuring-for-windows-azure
 [cfg-s3]: https://github.com/ahmetalpbalkan/permalinker/tree/dev#configuring-for-aws-s3
