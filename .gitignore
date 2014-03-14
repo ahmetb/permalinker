@@ -1,5 +1,5 @@
 *.py[cod]
-*.tmp
+*.tmp*
 
 # C extensions
 *.so
