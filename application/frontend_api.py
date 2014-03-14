@@ -38,7 +38,7 @@ def api_upload():
         took = (datetime.now() - start).total_seconds()
         return render_api_result({'permalink': permalink}, {'took': took}), 201
     except Exception as e:
-        raise e
+        print e
         return render_api_error('Internal error occurred.'), 500
 
 
