@@ -56,3 +56,25 @@ from Github in the previous step. Create application:
 
 Your application URL will be the one above. Push the application package to
 Heroku:
+
+    git push heroku master
+
+If the command succeeds with a message like the following your app 
+is now deployed to Heroku at specified URL:
+
+    ...
+    -----> Compressing... done, 31.5MB
+    -----> Launching... done, v3
+    http://vast-atoll-8883.herokuapp.com/ deployed to Heroku
+
+If you navigate to the URL you got, you will probably get an application error.
+This is because you have not set environment variables for Heroku application.
+Here's how to set environment variables for a configuration using Azure Storage:
+
+    heroku config:set STORAGE=azure
+    heroku config:set AZURE_CONTAINER=testcontainer
+    heroku config:set AZURE_ACCOUNT_NAME=ahmet
+    heroku config:set AZURE_ACCOUNT_KEY=00000000000000000000000000
+
+Try navigating to URL again, if you are not seeing "Application Error", you
+are good! Otherwise run `heroku logs -t` to see logs and troubleshoot.
