@@ -13,8 +13,8 @@ from . import downloader
 from . import api_utils
 
 
-@webapp.route('/api/1/upload', methods=['PUT', 'POST'])
-@api_utils.crossdomain(origin='*')
+@webapp.route('/api/1/upload', methods=['PUT', 'POST', 'OPTIONS'])
+@api_utils.crossdomain(origin='*', headers='Authorization')
 @api_utils.requires_auth
 def api_upload():
     url = request.args.get('url')
