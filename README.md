@@ -63,11 +63,27 @@ Here's how to set environment variables for a configuration using Azure Storage:
 Try navigating to URL again, if you are not seeing "Application Error", you
 are good! Otherwise run `heroku logs -t` to see logs and troubleshoot.
 
+##### Securing your Permalinker Server
+
+Anyone with a link to your permalinker server can use it to fill up your
+storage account and mess with your monthly cloud service bill.
+
+To prevent that, you can set an username/password in the following environment
+variables for your server:
+
+    heroku config:set PERM_USER=your-username
+    heroku config:set PERM_USER=your-password
+
+**It it optional to use this, but it's highly recommended.** You need to use
+the same credentials on the browser extension to authenticate.
+
 ### Configuring for Windows Azure 
 
-Make sure you have a Windows Azure account. Read this tutorial on [How to create storage account on Windows Azure](http://www.windowsazure.com/en-us/documentation/articles/storage-create-storage-account/)
+Make sure you have a Windows Azure account. Read this tutorial on 
+[How to create storage account on Windows Azure](http://www.windowsazure.com/en-us/documentation/articles/storage-create-storage-account/)
 
-At the end, click "Manage Keys" for your subscription. Using the account name and one of account keys, configure your heroku service as follows
+At the end, click "Manage Keys" for your subscription. Using the account name
+ and one of account keys, configure your heroku service as follows
 
 
     heroku config:set STORAGE=azure
@@ -77,13 +93,16 @@ At the end, click "Manage Keys" for your subscription. Using the account name an
 
 Please note:
 
-* The blobs uploaded to the container will be public, however people cannot list blobs in that container.
-* Container names can be 3 to 64 lowercase letters or numbers or dash (-) char. ([read more](http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx))
+* The blobs uploaded to the container will be public, however people cannot
+list blobs in that container.
+* Container names can be 3 to 64 lowercase letters or numbers or dash (-) 
+char. ([read more](http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx))
 
 
 ### Configuring for AWS S3 
 
-Make sure you have a Amazon Web Services account. Read this tutorial on [Getting your Acccess ID and Secret Access Key](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html).
+Make sure you have a Amazon Web Services account. Read this tutorial on 
+[Getting your Acccess ID and Secret Access Key](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html).
 
 Configure your heroku service as follows
 
@@ -94,8 +113,10 @@ Configure your heroku service as follows
 
 Please note:
 
-* The **bucket name should be universally unique**. So come up with something creative (e.g I am using `alp-perma`).
-* The keys (files) uploaded will be public to anyone. However people cannot list keys in the specified bucket.
+* The **bucket name should be universally unique**. So come up with something
+creative (e.g I am using `alp-perma`).
+* The keys (files) uploaded will be public to anyone. However people cannot
+list keys in the specified bucket.
 
 --------------------
 

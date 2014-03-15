@@ -2,7 +2,8 @@
 
 from datetime import timedelta
 from flask import make_response, request, current_app
-from functools import update_wrapper
+from functools import update_wrapper, wraps
+import os
 
 
 def crossdomain(origin=None, methods=None, headers=None,
@@ -45,3 +46,39 @@ def crossdomain(origin=None, methods=None, headers=None,
         f.provide_automatic_options = False
         return update_wrapper(wrapped_function, f)
     return decorator
+
+ENV_PERMUSER = 'PERM_USER'
+ENV_PERMPASS = 'PERM_PASS'
+
+
+def should_check_auth():
+    global ENV_PERMUSER, ENV_PERMPASS
+    for k in os.environ:
+        print k, '=', os.environ[k]
+
+    return ENV_PERMUSER in os.environ and ENV_PERMPASS in os.environ
+
+
+def check_auth(username, password):
+    global ENV_PERMUSER, ENV_PERMPASS
+    env = os.environ
+    return username == env[ENV_PERMUSER] and password == env[ENV_PERMPASS]
+
+
+def authenticate():
+    return make_response(
+        'You have to login with proper credentials', 401,
+        {'WWW-Authenticate': 'Basic realm="Auth Required"'})
+
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        print 'should chk auth', should_check_auth()
+        if auth:
+            print 'is valid auth', check_auth(auth.username, auth.password)
+        if should_check_auth() and (not auth or not check_auth(auth.username, auth.password)):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
